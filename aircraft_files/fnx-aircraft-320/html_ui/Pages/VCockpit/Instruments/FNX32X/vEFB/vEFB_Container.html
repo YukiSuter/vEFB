@@ -1,0 +1,27 @@
+<script type="text/javascript">
+    window.addEventListener('message',  event => {
+      if (event.data == 'FOCUS') {
+        Coherent.call('FOCUS_INPUT_FIELD');
+      } else if (event.data == 'UNFOCUS') {
+        Coherent.call('UNFOCUS_INPUT_FIELD');
+      }
+    });
+  </script>
+  <!-- <script type="text/javascript" src="/JS/debug.js"></script> -->
+  
+  <script type="text/html" id="EFB_Captain">
+    <div id="Mainframe" style="display: flex; width:100%; height:100%">
+      <!-- <iframe src="/Pages/VCockpit/Instruments/FNX32X/EFB/init_capt.html" title="EFB_Captain" style="width:2048px; height:1536px; border:0;"></iframe> -->
+      <div style="width:150px; height:100%; background-color: #131313; padding:20px">
+        <img style="margin-top: 15px; border-radius: 15%;" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSKqTVjAVeY8s7sOybWj0H9Sjgl7t8ETd4SUw&s" width="100%" onclick="document.getElementById('bavms_screen').src = 'http://localhost:8083/';" >
+        <img style="margin-top: 15px; border-radius: 15%;" src="https://static-cdn.jtvnw.net/jtv_user_pictures/ee875afa-3ace-4feb-8acc-95ba0e802d75-profile_image-300x300.png" width="100%" onclick="document.getElementById('bavms_screen').src = 'http://localhost:3000/fetch/https://bavms.bavirtual.co.uk/';" >
+      </div>
+      <!-- <iframe id="fenix_screen" src="/Pages/VCockpit/Instruments/FNX32X/EFB/init_capt.html" title="EFB_Captain" style="flex: 1; width:1900px; height:1536px; border:0;"></iframe> -->
+      <!-- <iframe id="bavms_screen" src="/Pages/VCockpit/Instruments/FNX32X/EFB/BAW_BAVMS.html" title="EFB_Captain" style="flex: 1; width:500px; height:700px; border:0;"></iframe> -->
+      <iframe id="bavms_screen" src="/Pages/VCockpit/Instruments/FNX32X/EFB/BAW_BAVMS.html" title="EFB_Captain" style="width:1880px; height:1536px; border:0;"></iframe>
+      <!-- <object type="text/html" data="http://validator.w3.org/" width="800px" height="600px" /> -->
+    </div>
+  </script>
+  
+  <script type="text/html" import-script="/Pages/VCockpit/Instruments/FNX32X/EFB/EFB_Captain.js"></script>
+  <!-- <script type="text/html" import-script="/Pages/VCockpit/Instruments/FNX32X/EFB/vEFB.js"></script>  -->
