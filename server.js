@@ -1,11 +1,14 @@
-import express from 'express';
-import puppeteer from 'puppeteer';
-import { URL } from 'url';
-import fetch from 'node-fetch';
-import mime from 'mime-types';
+const express = require('express');
+const puppeteer = require('puppeteer');
+const { URL } = require('url');
+const mime = require('mime-types');
 
 const app = express();
 const port = 3000;
+
+app.listen(port, () => {
+  console.log(`Server is running at http://localhost:${port}`);
+});
 
 // PROXYING
 
@@ -23,27 +26,29 @@ const proxyHTML = async (html, baseURL) => {
 
   html = html.replace(assetPattern, (match, url) => {
     const fullUrl = new URL(url, baseURL);
-    console.log(`Replacing following url: ${fullUrl}`)
+    console.log(`Replacing following url: ${fullUrl}`);
     return match.replace(url, `/proxy/${fullUrl}`);
   });
 
   return html;
 };
 
-
 const proxyJS = async (js, baseURL) => {
-    console.log(`looking through: ${baseURL}`)
-    const assetPattern = /\bhttps?:\/\/[^\s'"(){}[\]<>]+(?:\?[^\s'"(){}[\]<>]*)?/g;
-  
-    js = js.replace(assetPattern, (match, url) => {
-      const fullUrl = new URL(url, baseURL);
-      console.log(`JS MATCH: ${url}`);
-      console.log(`Replacing following url: ${fullUrl}`)
-      return match.replace(url, `/proxy/${fullUrl}`);
-    });
-  
-    return js;
-  };
+  console.log(`looking through: ${baseURL}`);
+  const assetPattern = /\bhttps?:\/\/[^\s'"(){}[\]<>]+(?:\?[^\s'"(){}[\]<>]*)?/g;
+
+  js = js.replace(assetPattern, (match, url) => {
+    const fullUrl = new URL(url, baseURL);
+    console.log(`JS MATCH: ${url}`);
+    console.log(`Replacing following url: ${fullUrl}`);
+    return match.replace(url, `/proxy/${fullUrl}`);
+  });
+
+  return js;
+};
+
+// Dynamically import node-fetch
+const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
 
 app.get('/fetch/*', async (req, res) => {
   try {
@@ -90,7 +95,3 @@ app.get('/proxy/*', async (req, res) => {
 });
 
 // PROXYING END
-
-app.listen(port, () => {
-  console.log(`Server is running at http://localhost:${port}`);
-});
