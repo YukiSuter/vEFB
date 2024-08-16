@@ -10,6 +10,13 @@ const app = express();
 const port = 3000;
 
 var config = {}
+let browser;
+
+const startBrowser = async () => {
+  if (!browser) {
+    browser = await puppeteer.launch();
+  }
+};
 
 
 app.use(cors({
@@ -26,11 +33,11 @@ const rl = readline.createInterface({
 // PROXYING
 
 const fetchHTML = async (url) => {
-  const browser = await puppeteer.launch();
+  // const browser = await puppeteer.launch();
   const page = await browser.newPage();
   await page.goto(url, { waitUntil: 'networkidle2' });
   const content = await page.content();
-  await browser.close();
+  await page.close();
   return content;
 };
 
@@ -186,6 +193,7 @@ rl.on('line', (contents) => {
 })
 
 
+startBrowser();
 
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
