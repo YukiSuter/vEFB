@@ -1,0 +1,34 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>vEFB</title>
+    <meta name="description" content="vEFB: Custom EFB">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- <script src="https://cdn.tailwindcss.com"></script> -->
+    <link rel='stylesheet' href='main.css' />
+    <script src="vEFB.js"></script>
+  </head>
+
+  <body class="flex flex-col h-screen">
+    <div class="flex-none flex flex-row justify-between p-5 bg-gray-900" id="topbar">
+        <p id="time" class="text-3xl text-white">9:41AM Tues Oct 18</p>
+        <p id="time" class="text-3xl text-white">vEFB: Connection OK</p>
+        <p id="time" class="text-3xl text-white">80%</p>
+    </div>
+    <div id="home_screen" class="flex-grow ">
+      <div id="app_container" class="bg-slate-500 h-full w-full grid grid-cols-5 grid-rows-4 p-16 px-36 place-content-start">
+          <div class="flex flex-col items-center max-h-[200px]">
+              <a class="rounded-md relative mb-5">
+                  <img class="rounded-3xl" width="150px" height="150px" src="https://static-cdn.jtvnw.net/jtv_user_pictures/ee875afa-3ace-4feb-8acc-95ba0e802d75-profile_image-300x300.png">
+                  <div class="absolute bottom-0 left-0 right-0 rounded-3xl top-0 h-[150px] w-[150px] overflow-hidden bg-black bg-fixed opacity-0 transition duration-300 ease-in-out hover:opacity-30"></div>
+              </a>
+              <p class="text-3xl text-white">BAVirtual BAVMS</p>
+          </div>
+      </div>
+    </div>
+    <div id="frame_container" class="flex-none hidden">
+    </div>
+  </body>
+</html>

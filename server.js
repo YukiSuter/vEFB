@@ -2,12 +2,25 @@ const express = require('express');
 const puppeteer = require('puppeteer');
 const { URL } = require('url');
 const mime = require('mime-types');
+const path = require('path');
+const readline = require('readline');
+const cors = require('cors');
 
 const app = express();
 const port = 3000;
 
-app.listen(port, () => {
-  console.log(`Server is running at http://localhost:${port}`);
+var config = {}
+
+
+app.use(cors({
+  origin: 'coui://html_ui'
+}));
+
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+  terminal: false
 });
 
 // PROXYING
@@ -30,12 +43,19 @@ const proxyHTML = async (html, baseURL) => {
     return match.replace(url, `/proxy/${fullUrl}`);
   });
 
+  const targetPattern = /target="([^"]+)"/g;
+
+  html = html.replace(targetPattern, (match,url) => {
+    console.log(`Replacing target ${url}`);
+    return match.replace(url, '_self')
+  })
+
   return html;
 };
 
 const proxyJS = async (js, baseURL) => {
   console.log(`looking through: ${baseURL}`);
-  const assetPattern = /\bhttps?:\/\/[^\s'"(){}[\]<>]+(?:\?[^\s'"(){}[\]<>]*)?/g;
+  const assetPattern = /\b(?:http|https)?:\/\/[^\s'"(){}[\]<>]+(?:\?[^\s'"(){}[\]<>]*)?/g;
 
   js = js.replace(assetPattern, (match, url) => {
     const fullUrl = new URL(url, baseURL);
@@ -95,3 +115,78 @@ app.get('/proxy/*', async (req, res) => {
 });
 
 // PROXYING END
+
+// EFB
+
+app.get('', async (req,res) => {
+  try {
+    res.send("SUCCESS")
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Error @ root');
+  }
+})
+
+app.get('/EFB/config', async (req,res) => {
+  try {
+    res.send(JSON.stringify(config))
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Error @ EFB');
+  }
+})
+
+app.get('/EFB/assets/*', async (req,res) => {
+  const wildcard = req.params[0];
+
+  const filePath = path.join(__dirname, `server/assets/${wildcard}`)
+
+  res.sendFile(filePath, err => {
+    if (err) {
+      res.status(404).send('File not found');
+    }
+  })
+})
+
+app.get('/client', async (req,res) => {
+  res.sendFile(path.join(__dirname, `server/html/style${config["EFB"]["style"]}/vEFB.html`))
+})
+
+app.get('/vEFB.js', async (req,res) =>{
+  const wildcard = req.params[0];
+  res.setHeader('Content-Type', 'application/javascript');
+
+  res.sendFile(path.join(__dirname, `server/html/style${config["EFB"]["style"]}/vEFB.js`))
+})
+
+app.get('/main.css', async (req,res) =>{
+  const wildcard = req.params[0];
+  res.setHeader('Content-Type', 'text/css');
+
+  console.log("Sending main.css")
+
+  res.sendFile(path.join(__dirname, `electron/css/main.css`))
+})
+
+// Data Receiving
+
+rl.on('line', (contents) => {
+  console.log(`contents`, contents)
+  m = JSON.parse(contents)
+  command = m["data"][0];
+  args = m["data"][1];
+
+  console.log(command)
+
+  switch(command) {
+    case "refresh-server-data":
+      console.log("S: Refreshing from electron-data")
+      config = args[0]
+  }
+})
+
+
+
+app.listen(port, () => {
+  console.log(`Server is running at http://localhost:${port}`);
+});

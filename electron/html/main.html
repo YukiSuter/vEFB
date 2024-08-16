@@ -1,42 +1,88 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
-    <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'"> -->
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-     
-    <!-- <link href="../css/main.css" rel="stylesheet"> -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <title>vEFB Configurator</title>
-  </head>
-  <body>
-    <div class="flex flex-col min-h-screen min-w-screen bg-slate-900 p-10 items-stretch">
-      <div class="flex grow flex-col h-full bg-slate-800 rounded-md border border-slate-600">
-        <div class="flex-none flex flex-row  items-start min-w-max h-10 items-stretch">
-          <div id="config_efb_cont" class="h-10 flex-none mt-1">
-            <button id="config_efb" class="text-xl text-sky-300 py-1 px-5 border-b-2 border-sky-300 h-full">EFB</button>
-          </div>
-          <div id="config_aircraft_cont" class="h-10 flex-none mt-1 bg-slate-700 rounded-tl-md border-l border-t border-slate-600">
-            <button id="config_aircraft" class="text-xl text-gray-400 py-1 px-5 border-b border-slate-600 h-full">Aircraft</button>
-          </div>
-          <div id="config_spacer" class="h-10 grow bg-slate-700 border-solid border border-slate-600 mt-1"></div>
-          <div id="config_settings_cont" class="h-10 float-right flex-none mt-1 bg-slate-700 border-t border-slate-600">
-            <button id="config_settings" class="text-xl text-gray-400 py-1 px-5 border-b border-slate-600 h-full">Settings</button>
-          </div>
-          <div id="config_save_cont" class="h-10 float-right flex-none mt-1 bg-slate-700 border-t border-slate-600">
-            <button id="config_save" class="text-xl text-gray-400 py-1 px-2 border-b border-l border-slate-600 h-full"><svg xmlns="http://www.w3.org/2000/svg" height="28px" viewBox="0 -960 960 960" width="28px" fill="#9ca3af"><path d="M840-680v480q0 33-23.5 56.5T760-120H200q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h480l160 160Zm-80 34L646-760H200v560h560v-446ZM480-240q50 0 85-35t35-85q0-50-35-85t-85-35q-50 0-85 35t-35 85q0 50 35 85t85 35ZM240-560h360v-160H240v160Zm-40-86v446-560 114Z"/></svg></button>
-          </div>
-          <div class="h-10 float-right flex-none mt-1 bg-slate-700 border-t border-slate-600">
-            <button id="config_home" class="text-xl text-gray-400 py-1 px-2 border-b border-l border-slate-600 h-full"><svg xmlns="http://www.w3.org/2000/svg" height="28px" viewBox="0 -960 960 960" width="28px" fill="#9ca3af"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h280v80H200v560h280v80H200Zm440-160-55-58 102-102H360v-80h327L585-622l55-58 200 200-200 200Z"/></svg></button>
-          </div>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../css/main.css"></script>
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      overflow: hidden;
+    }
+
+    p {
+      color: white;
+      font-size: 1.125rem; /* 18px */
+      line-height: 1.75rem; /* 28px */
+    }
+
+    .configRow {
+      padding-top: 10px;
+      padding-bottom: 10px;
+    }
+  </style>
+  <title>vEFB Configurator</title>
+</head>
+<body>
+  <div class="flex flex-col min-h-screen bg-slate-900 p-10 h-full">
+    <div class="flex flex-col flex-grow bg-slate-800 rounded-md border border-slate-600 h-full">
+      <div class="flex flex-row items-start h-10">
+        <div id="config_efb_cont" class="h-10 mt-1">
+          <button id="config_efb" class="text-xl text-sky-300 py-1 px-5 border-b-2 border-sky-300 h-full">EFB</button>
         </div>
-        <div class="flex-1 h-full p-3">
-          <!-- <p>__</p> -->
+        <div id="config_aircraft_cont" class="h-10 mt-1 bg-slate-700 rounded-tl-md border-l border-t border-slate-600">
+          <button id="config_aircraft" class="text-xl text-gray-400 py-1 px-5 border-b border-slate-600 h-full">Aircraft</button>
+        </div>
+        <div id="config_spacer" class="h-10 flex-grow bg-slate-700 border border-slate-600 mt-1"></div>
+        <div id="config_settings_cont" class="h-10 mt-1 bg-slate-700 border-t border-slate-600">
+          <button id="config_settings" class="text-xl text-gray-400 py-1 px-5 border-b border-slate-600 h-full">Settings</button>
+        </div>
+        <div id="config_save_cont" class="h-10 mt-1 bg-slate-700 border-t border-slate-600">
+          <button id="config_save" class="text-xl text-gray-400 py-1 px-2 border-b border-l border-slate-600 h-full">
+            <svg xmlns="http://www.w3.org/2000/svg" height="28px" viewBox="0 -960 960 960" width="28px" fill="#9ca3af">
+              <path d="M840-680v480q0 33-23.5 56.5T760-120H200q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h480l160 160Zm-80 34L646-760H200v560h560v-446ZM480-240q50 0 85-35t35-85q0-50-35-85t-85-35q-50 0-85 35t-35 85q0 50 35 85t85 35ZM240-560h360v-160H240v160Zm-40-86v446-560 114Z"/>
+            </svg>
+          </button>
+        </div>
+        <div id="config_home_cont" class="h-10 mt-1 bg-slate-700 border-t border-slate-600">
+          <button id="config_home" class="text-xl text-gray-400 py-1 px-2 border-b border-l border-slate-600 h-full">
+            <svg xmlns="http://www.w3.org/2000/svg" height="28px" viewBox="0 -960 960 960" width="28px" fill="#9ca3af">
+              <path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h280v80H200v560h280v80H200Zm440-160-55-58 102-102H360v-80h327L585-622l55-58 200 200-200 200Z"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div class="flex flex-col flex-grow overflow-hidden p-3" style="height: calc(100vh-100px)">
+        <!-- EFB Page -->
+        <div class="scrollbar-thin scrollbar-thumb-sky-700 flex flex-row h-full overflow-y-auto ">
+          <div id="efb_settings_container" class="flex-grow grid grid-cols-1 divide-y divide-slate-600 p-5 justify-start">
+            <!-- Main Settings -->
+            <div class="configRow">
+              <p class="mt-1 float-left">EFB Server</p>
+              <button
+                type="button"
+                id="serverToggle"
+                class="float-right inline-block rounded bg-cyan-700 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-primary-3 transition duration-150 ease-in-out hover:bg-cyan-700 hover:shadow-primary-2 focus:bg-cyan-700 focus:shadow-primary-2 focus:outline-none focus:ring-0 active:bg-primary-600 active:shadow-primary-2 motion-reduce:transition-none dark:shadow-black/30 dark:hover:shadow-dark-strong dark:focus:shadow-dark-strong dark:active:shadow-dark-strong">🔴 Server Stopped</button>
+            </div>
+            <div class="configRow">
+              <p class="float-left">Global Style (coming soon)</p>
+            </div>
+            
+            <!-- Add more rows as needed -->
+          </div>
+          <div class="inline-block h-[460px] w-px self-stretch bg-slate-600 my-6"></div>
+          <div class="w-1/5 h-fit flex-grow grid grid-cols-1 divide-y divide-slate-600 p-5 justify-start">
+            <p class="text-sm py-1">Start/Stop the server</p>
+            <p class="text-sm py-1">Change the global default style</p>
+            <p class="text-sm py-1">Use the "Link X and Icon X settings here to change the shortcuts that show on the EFB. <br><br>NOTE: Each style may have a certain number of shortcut slots available, which may be fewer slots than options are given here. Depending on the aircraft slots will also be occupied if integrating the original EFB software. You can change this behaviour in the aircraft section above.</p>
+          </div>
         </div>
       </div>
     </div>
-    <script src="./../js/main_renderer.js"></script>
-  </body>
+  </div>
+  <script src="./../js/main_renderer.js"></script>
   
+</body>
 </html>

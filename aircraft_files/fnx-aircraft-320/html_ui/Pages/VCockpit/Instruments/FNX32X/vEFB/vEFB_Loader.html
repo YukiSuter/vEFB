@@ -3,11 +3,11 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>BAW BAVMS</title>
+    <title>vEFB</title>
     <meta name="description" content="Fenix A320 EFB">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-    <link rel="icon" type="image/x-icon" href="img/Bob_Icon_x256.png" />
+    <link rel="icon" type="image/x-icon" href="../EFB/img/Bob_Icon_x256.png" />
     <link rel='stylesheet' href='styles.css' />
     <style>
       body {
@@ -64,15 +64,15 @@
 
   function checkAndLoadEFBWebApp() {
     console.log("Checking for success")
-    fetch('http://localhost:8083')
+    fetch('http://localhost:3000')
       .then(_ => {
         console.log("Fetch succeeded")
-        window.location.replace('http://localhost:8083/index_capt.html');
+        window.location.replace('http://localhost:3000/client');
 
         clearInterval(checkInterval);
       })
       .catch(err => {
-        console.log('Failed to connect to BAVMS', err);
+        console.log('Failed to connect to vEFB', err);
       });
   }
 </script>

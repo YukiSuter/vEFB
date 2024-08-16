@@ -1,5 +1,3 @@
-const { ipcRenderer } = require('electron');
-
 // document.getElementById('getStarted').addEventListener('click', () => {
 //     console.log("Click!")
 //     ipcRenderer.send('start-server');
@@ -8,6 +6,6 @@ const { ipcRenderer } = require('electron');
 
 document.getElementById('getStarted').addEventListener('click', () => {
     console.log("Click!")
-    ipcRenderer.send('nav-to', "main");
+    window.api.onLoadPage("main");
     document.getElementById('getStarted').innerHTML = 'Server Started';
 });

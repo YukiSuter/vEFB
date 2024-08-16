@@ -1,0 +1,17 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "chrome",
+            "request": "launch",
+            "name": "Open vEFB_Loader.html",
+            "file": "e:\\UserData\\Yuki\\Documents\\MSFSAddonProjects\\vEFB (Electron)\\vEFB-main\\aircraft_files\\fnx-aircraft-320\\html_ui\\Pages\\VCockpit\\Instruments\\FNX32X\\vEFB\\vEFB_Loader.html",
+            "runtimeArgs": [
+               "--disable-web-security"
+             ],
+        }
+    ]
+}

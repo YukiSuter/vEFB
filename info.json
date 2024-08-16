@@ -1,0 +1,61 @@
+{
+  "aircraft": {
+    "AIRCRAFT ROOT FOLDER": ["Name", "Support Level", "Notes"],
+    "fnx-aircraft-320": ["Fenix A32X", "WIP", "Integrates with existing EFB"]
+  },
+  "styles": {
+    "STYLE NAME/NUMBER/LETTER": ["Supported aircraft1", "Supported Aircraft2"],
+    "A": ["fnx-aircraft-320"]
+  },
+  "settings-template": {
+    "EFB": {
+      "style": "A",
+      "link1": {
+        "label": "",
+        "url": ""
+      },
+      "link2": {
+        "label": "",
+        "url": ""
+      },
+      "link3": {
+        "label": "",
+        "url": ""
+      },
+      "link4": {
+        "label": "",
+        "url": ""
+      },
+      "link5": {
+        "label": "",
+        "url": ""
+      },
+      "link6": {
+        "label": "",
+        "url": ""
+      },
+      "link7": {
+        "label": "",
+        "url": ""
+      },
+      "link8": {
+        "label": "",
+        "url": ""
+      },
+      "link9": {
+        "label": "",
+        "url": ""
+      },
+      "link10": {
+        "label": "",
+        "url": ""
+      }
+    },
+    "Aircraft": {
+        
+    },
+    "Settings": {
+
+    }
+  }
+}
